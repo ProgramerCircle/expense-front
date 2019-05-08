@@ -29,9 +29,8 @@ const codeMessage = {
  */
 const errorHandler = error => {
   const { response = {} } = error;
-  const errortext = codeMessage[response.status] || response.statusText;
+  const errortext = error.data.message;
   const { status, url } = response;
-
   if (status === 401) {
     notification.error({
       message: '未登录或登录已过期，请重新登录。',
@@ -44,21 +43,20 @@ const errorHandler = error => {
     return;
   }
   notification.error({
-    message: `请求错误 ${status}: ${url}`,
-    description: errortext,
+    message: errortext,
+    description: `响应状态码：${status}`
   });
   // environment should not be used
-  if (status === 403) {
-    router.push('/exception/403');
-    return;
-  }
-  if (status <= 504 && status >= 500) {
-    router.push('/exception/500');
-    return;
-  }
-  if (status >= 404 && status < 422) {
-    router.push('/exception/404');
-  }
+  // if (status === 403) {
+  //   router.push('/exception/403');
+  //   return;
+  // }
+  // if (status <= 504 && status >= 500) {
+  //   return;
+  // }
+  // if (status >= 404 && status < 422) {
+  //   router.push('/exception/404');
+  // }
 };
 
 /**

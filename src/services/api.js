@@ -103,6 +103,14 @@ export async function updateFakeList(params) {
   });
 }
 
+export async function queryNotices(params = {}) {
+  return request(`/api/notices?${stringify(params)}`);
+}
+
+export async function getFakeCaptcha(mobile) {
+  return request(`/api/captcha?mobile=${mobile}`);
+}
+
 export async function fakeAccountLogin(params) {
   return request(`http://localhost:8080/expense/user/login?${stringify(params)}`, {
     method: 'POST'
@@ -114,12 +122,4 @@ export async function fakeRegister(params) {
     method: 'POST',
     data: params,
   });
-}
-
-export async function queryNotices(params = {}) {
-  return request(`/api/notices?${stringify(params)}`);
-}
-
-export async function getFakeCaptcha(mobile) {
-  return request(`/api/captcha?mobile=${mobile}`);
 }

@@ -24,6 +24,7 @@ export default {
         localStorage.setItem('system-user', JSON.stringify(response));
         reloadAuthorized();
         const urlParams = new URL(window.location.href);
+        //params = /dashboard/analysis
         const params = getPageQuery();
         let { redirect } = params;
         if (redirect) {

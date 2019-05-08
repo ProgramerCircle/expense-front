@@ -25,6 +25,7 @@ export default {
       reloadAuthorized();
       return {
         ...state,
+        payload,
         status: payload.status,
       };
     },

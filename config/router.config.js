@@ -23,6 +23,97 @@ export default [
     component: '../layouts/BasicLayout',
     Routes: ['src/pages/Authorized'],
     routes: [
+      //Team
+      {
+        path: '/team',
+        name: '团队管理',
+        icon: 'profile',
+        routes: [
+          {
+            path: '/team/manager',
+            name: '团队管理',
+            component: './Team/Team',
+          },
+          {
+            path: '/team/new',
+            name: '新建团队',
+            component: './Team/NewTeam',
+          },
+          {
+            path: '/team/join',
+            name: '加入团队',
+            component: './Team/JoinTeam',
+            hidden: true
+          },
+        ]
+      },
+      //Project
+      {
+        path: '/project',
+        name: '项目管理',
+        icon: 'profile',
+        routes: [
+          {
+            path: '/project/manager',
+            name: '项目管理',
+            component: './Project/Project',
+          },
+          {
+            path: '/project/new',
+            name: '新建项目',
+            component: './Project/NewProject',
+          },
+        ]
+      },
+      //ExpenseType
+      {
+        path: '/expenseType',
+        name: '费用类型',
+        icon: 'profile',
+        routes: [
+          {
+            path: '/expenseType/manager',
+            name: '费用类型管理',
+            component: './ExpenseType/ExpenseType',
+          },
+          {
+            path: '/expenseType/new/:projectId',
+            name: '新建费用类型',
+            component: './ExpenseType/NewExpenseType',
+          }
+          ]
+      },
+      //ExpenseApprove
+      {
+        path: '/expenseApplication',
+        name: '费用申请单',
+        icon: 'profile',
+        routes: [
+          {
+            path: '/expenseApplication/manager',
+            name: '我的费用申请单',
+            component: './ExpenseApplication/ExpenseApplication',
+          },
+          {
+            path: '/expenseApplication/new',
+            name: '新建申请单',
+            component: './ExpenseApplication/NewExpenseApplication',
+          },
+        ]
+      },
+      //ExpenseApprove
+      {
+        path: '/expenseApprove',
+        name: '费用申请单审批',
+        icon: 'profile',
+        routes: [
+          {
+            path: '/expenseApprove/approve',
+            name: '费用申请单审批',
+            component: './ExpenseApprove/ExpenseApprove',
+          }
+        ]
+      },
       // dashboard
       { path: '/', redirect: '/dashboard/analysis', authority: ['admin', 'user'] },
       {

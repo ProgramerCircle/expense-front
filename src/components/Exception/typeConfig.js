@@ -14,6 +14,11 @@ const config = {
     title: '500',
     desc: '抱歉，服务器出错了',
   },
+  1001: {
+    img: 'https://gw.alipayobjects.com/zos/rmsportal/RVRUAYdCGeYNBWoKiIwB.svg',
+    title: '用户未绑定团队',
+    desc: '请先前往团队管理功能下创建或加入团队',
+  },
 };
 
 export default config;

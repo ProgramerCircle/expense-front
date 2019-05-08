@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import { formatMessage, FormattedMessage } from 'umi-plugin-react/locale';
 import Link from 'umi/link';
 import router from 'umi/router';
-import { Form, Input, Button, message, Select, Row, Col, Popover, Progress } from 'antd';
+import { notification, Form, Input, Button, message, Select, Row, Col, Popover, Progress } from 'antd';
 import axios from 'axios';
 import styles from './Register.less';
 
@@ -54,8 +54,13 @@ class Register extends Component {
     const { form, register } = this.props;
     const account = form.getFieldValue('email');
     if (register.status === 'ok') {
+      localStorage.setItem("system-user",JSON.stringify(register.payload))
+      notification.success({
+        message: '注册成功！',
+        description: '直接登陆至主页面'
+      });
       router.push({
-        pathname: '/user/register-result',
+        pathname: '/dashboard/analysis',
         state: {
           account,
         },
@@ -83,13 +88,18 @@ class Register extends Component {
         const option = {
           url: 'http://localhost:8080/expense/user/verify',
           method: 'POST',
-          data:{values}
+          data:values
+
         }
+        debugger
         axios(option).then(res => {
           this.setState({
             verifyCode : res.data
           })
         }).catch(e => {
+          notification.success({
+            message: e.message,
+          });
           message.warning(e.message)
         })
       }

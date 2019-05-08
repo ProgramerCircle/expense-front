@@ -69,6 +69,7 @@ class HeaderView extends Component {
       return;
     }
     if (key === 'logout') {
+      localStorage.removeItem("system-user");
       dispatch({
         type: 'login/logout',
       });

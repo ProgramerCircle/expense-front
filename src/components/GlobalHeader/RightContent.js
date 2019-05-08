@@ -8,6 +8,7 @@ import HeaderSearch from '../HeaderSearch';
 import HeaderDropdown from '../HeaderDropdown';
 import SelectLang from '../SelectLang';
 import styles from './index.less';
+import router from 'umi/router';
 
 export default class GlobalHeaderRight extends PureComponent {
   getNoticeData() {
@@ -65,13 +66,16 @@ export default class GlobalHeaderRight extends PureComponent {
 
   render() {
     const {
-      currentUser,
       fetchingNotices,
       onNoticeVisibleChange,
       onMenuClick,
       onNoticeClear,
       theme,
     } = this.props;
+    const currentUser = JSON.parse(localStorage.getItem('system-user'))
+    if(currentUser == null){
+      router.push('/user/login')
+    }
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
         {/*
@@ -184,7 +188,7 @@ export default class GlobalHeaderRight extends PureComponent {
               <Avatar
                 size="small"
                 className={styles.avatar}
-                src={currentUser.avatar}
+                src='https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png'
                 alt="avatar"
               />
               <span className={styles.name}>{currentUser.name}</span>
