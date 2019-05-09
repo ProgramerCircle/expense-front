@@ -107,32 +107,31 @@
 
       return (
         <PageHeaderWrapper
-          title={<FormattedMessage id="app.forms.basic.title" />}
-          content={<FormattedMessage id="app.forms.basic.description" />}
+          title="新建费用类型"
         >
           <Card bordered={false}>
             <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
               {/* 费用类型名称 */}
-              <FormItem {...formItemLayout} label={<FormattedMessage id="form.title.label" />}>
+              <FormItem {...formItemLayout} label="费用类型名称">
                 {getFieldDecorator('name', {
                   rules: [
                     {
                       required: true,
-                      message: formatMessage({ id: 'validation.title.required' }),
+                      message: "请输入费用类型名称！",
                     },
                   ],
-                })(<Input placeholder={formatMessage({ id: 'form.title.placeholder' })} />)}
+                })(<Input placeholder="费用类型名称" />)}
               </FormItem>
               {/* 项目名称 */}
-              <FormItem {...formItemLayout} label={<FormattedMessage id="form.title.label" />}>
+              <FormItem {...formItemLayout} label="费用类型简称代码">
                 {getFieldDecorator('shortName', {
                   rules: [
                     {
                       required: true,
-                      message: formatMessage({ id: 'validation.title.required' }),
+                      message: "请输入费用类型简称代码，全使用大写字母",
                     },
                   ],
-                })(<Input placeholder={formatMessage({ id: 'form.title.placeholder' })} />)}
+                })(<Input placeholder="费用类型简称代码，全使用大写字母" />)}
               </FormItem>
               {/* 费用类型限额 */}
               <FormItem {...formItemLayout} label="限额">
@@ -144,7 +143,7 @@
                       message: '请输入合法金额数字',
                     },
                   ],
-                })(<Input prefix="￥" placeholder="请输入限额" />)}
+                })(<Input prefix="￥" placeholder="请输入限额" style={{ width: '40%' }} />)}
               </FormItem>
               {/* 费用类型审批方式 */}
               <FormItem {...formItemLayout} label="审批方式">
@@ -164,11 +163,9 @@
                     rules: [
                       { required: approveStatus ? false:true , message: '请选择审批方式' },
                     ],
-                  })(<Select placeholder="请选择人员" style={{ width: '20%' }}>
+                  })(<Select placeholder="请选择人员" style={{ width: '40%' }}>
                       {approveUserList.map(item => {
-                        if(item.id !== currentUser.id ) {
                           return <Option value={item.id}>{item.name}</Option>
-                        }
                       })}
                     </Select>
                   )}

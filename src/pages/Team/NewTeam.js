@@ -33,7 +33,8 @@
             }
           }
           axios(option).then(res=>{
-            currentUser.teamId = res.data.id
+            currentUser.teamId = res.data.id;
+            currentUser.rank = 1;
             localStorage.setItem('system-user', JSON.stringify(currentUser))
             router.push(`/team/manager`)
           }).catch(error => {
@@ -73,35 +74,34 @@
 
       return (
         <PageHeaderWrapper
-          title={<FormattedMessage id="app.forms.basic.title" />}
-          content={<FormattedMessage id="app.forms.basic.description" />}
+          title="新建团队页"
         >
           <Card bordered={false}>
             <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
               {/* 团队名称 */}
-              <FormItem {...formItemLayout} label={<FormattedMessage id="form.title.label" />}>
+              <FormItem {...formItemLayout} label="团队名称">
                 {getFieldDecorator('name', {
                   rules: [
                     {
                       required: true,
-                      message: formatMessage({ id: 'validation.title.required' }),
+                      message: "请输入团队名称",
                     },
                   ],
-                })(<Input placeholder={formatMessage({ id: 'form.title.placeholder' })} />)}
+                })(<Input placeholder="请输入团队名称"/>)}
               </FormItem>
               {/* 团队描述 */}
-              <FormItem {...formItemLayout} label={<FormattedMessage id="form.goal.label" />}>
+              <FormItem {...formItemLayout} label="团队简介">
                 {getFieldDecorator('description', {
                   rules: [
                     {
                       required: true,
-                      message: formatMessage({ id: 'validation.goal.required' }),
+                      message: '请输入团队简介信息',
                     },
                   ],
                 })(
                   <TextArea
                     style={{ minHeight: 32 }}
-                    placeholder={formatMessage({ id: 'form.goal.placeholder' })}
+                    placeholder='请输入团队简介信息'
                     rows={4}
                   />
                 )}

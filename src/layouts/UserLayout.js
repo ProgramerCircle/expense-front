@@ -7,7 +7,7 @@ import GlobalFooter from '@/components/GlobalFooter';
 import DocumentTitle from 'react-document-title';
 import SelectLang from '@/components/SelectLang';
 import styles from './UserLayout.less';
-import logo from '../assets/logo.svg';
+import logo from '../assets/logo3.png';
 import getPageTitle from '@/utils/getPageTitle';
 
 const links = [
@@ -62,15 +62,14 @@ class UserLayout extends Component {
             <div className={styles.top}>
               <div className={styles.header}>
                 <Link to="/">
-                  <img alt="logo" className={styles.logo} src={logo} />
-                  <span className={styles.title}>Ant Design</span>
+                  <img alt="" className={styles.logo} src={logo} />
                 </Link>
               </div>
-              <div className={styles.desc}>Ant Design 是西湖区最具影响力的 Web 设计规范</div>
             </div>
-            {children}
+            <div className={styles.main}>
+              {children}
+            </div>
           </div>
-          <GlobalFooter links={links} copyright={copyright} />
         </div>
       </DocumentTitle>
     );

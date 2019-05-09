@@ -10,7 +10,7 @@ export default {
   'app.login.sign-in-with': '其他登录方式',
   'app.login.signup': '注册账户',
   'app.login.login': '登录',
-  'app.register.register': '注册',
+  'app.register.register': '用户注册',
   'app.register.get-verification-code': '获取验证码',
   'app.login.verification-code-warning':
     '此项目为演示项目，并不会真的给您发送验证码。请切换到账户密码登录界面按提示登录。',

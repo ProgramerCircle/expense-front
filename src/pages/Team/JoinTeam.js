@@ -40,6 +40,14 @@ class JoinTeam extends PureComponent {
 
   joinTeam = (item) =>{
     const { currentUser } = this.state;
+    if(currentUser.teamId){
+      notification.error({
+        message: "已有团队!",
+        description: "将自动跳往团队管理页面!",
+      });
+      router.push(`/team/manager`)
+      return
+    }
     const option = {
       url: `http://localhost:8080/expense/user/team/join?userId=${currentUser.id}&teamId=${item.id}`,
       method: 'post',

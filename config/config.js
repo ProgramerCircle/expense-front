@@ -114,6 +114,13 @@ export default {
   manifest: {
     basePath: '/',
   },
+  proxy: {
+    '/expense': {
+      'target': 'http://localhost:8080/',
+      'changeOrigin': true,
+    },
+  },
+
 
   chainWebpack: webpackPlugin,
 };

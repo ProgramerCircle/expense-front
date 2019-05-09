@@ -183,7 +183,7 @@ class ExpenseApplication extends Component {
           <Col md={8} sm={24}>
             <FormItem label="费用类型">
               {getFieldDecorator('expenseType')(
-                <Select disabled={!projectId} placeholder="请选择费用类型" onChange={(value)=>this.getExpenseTypeInfo(value)} style={{ width: '100%' }}>
+                <Select disabled={!projectId} placeholder="请选择费用类型" style={{ width: '100%' }}>
                   {expenseTypeList.map(item => {
                     return <Option value={item.id}>{item.name}</Option>
                   })}

@@ -179,23 +179,22 @@
 
       return (
         <PageHeaderWrapper
-          title={<FormattedMessage id="app.forms.basic.title" />}
-          content={<FormattedMessage id="app.forms.basic.description" />}
+          title="新建费用申请单"
         >
           <Card bordered={false}>
             <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
               {/* 项目 */}
-              <FormItem {...formItemLayout} label={<FormattedMessage id="form.title.label" />}>
+              <FormItem {...formItemLayout} label="所属项目">
                 {getFieldDecorator('projectId', {
                   //initialValue: "",
                   rules: [
                     {
                       required: true,
-                      message: formatMessage({ id: 'validation.title.required' }),
+                      message: "请选择项目！",
                     },
                   ],
                 })(
-                  <Select placeholder="请选择项目" onChange={(value)=>this.selectProject(value)} style={{ width: '20%' }}>
+                  <Select placeholder="选择项目" onChange={(value)=>this.selectProject(value)} style={{ width: '40%' }}>
                     {projectList.map(item => {
                       return <Option value={item.id}>{item.name}</Option>
                     })}
@@ -204,16 +203,16 @@
               </FormItem>
 
               {/* 费用类型 */}
-              <FormItem {...formItemLayout} label={<FormattedMessage id="form.title.label" />}>
+              <FormItem {...formItemLayout} label="费用类型">
                 {getFieldDecorator('expenseTypeId', {
                   rules: [
                     {
                       required: true,
-                      message: formatMessage({ id: 'validation.title.required' }),
+                      message:"选择费用类型！",
                     },
                   ],
                 })(
-                  <Select disabled={!projectId} placeholder="请选择费用类型" onChange={(value)=>this.getExpenseTypeInfo(value)} style={{ width: '20%' }}>
+                  <Select disabled={!projectId} placeholder="请选择费用类型" onChange={(value)=>this.getExpenseTypeInfo(value)} style={{ width: '40%' }}>
                     {expenseTypeList.map(item => {
                       return <Option value={item.id}>{item.name}</Option>
                     })}
@@ -221,18 +220,18 @@
                 )}
               </FormItem>
               {/* 单据描述 */}
-              <FormItem {...formItemLayout} label={<FormattedMessage id="form.goal.label" />}>
+              <FormItem {...formItemLayout} label="费用描述">
                 {getFieldDecorator('description', {
                   rules: [
                     {
                       required: true,
-                      message: formatMessage({ id: 'validation.goal.required' }),
+                      message: "请输入费用描述",
                     },
                   ],
                 })(
                   <TextArea
                     style={{ minHeight: 32 }}
-                    placeholder={formatMessage({ id: 'form.goal.placeholder' })}
+                    placeholder="费用描述"
                     rows={4}
                   />
                 )}
@@ -247,7 +246,7 @@
                       message: '请输入合法金额数字',
                     },
                   ],
-                })(<Input prefix="￥" placeholder="请输入金额" />)}
+                })(<Input prefix="￥" placeholder="请输入金额" style={{ width: '40%' }} />)}
               </FormItem>
               <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
                 <Button type="primary" htmlType="submit" loading={submitting}>

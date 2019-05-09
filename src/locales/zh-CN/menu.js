@@ -42,4 +42,20 @@ export default {
   'menu.editor.flow': '流程编辑器',
   'menu.editor.mind': '脑图编辑器',
   'menu.editor.koni': '拓扑编辑器',
+  'menu.team':'我的团队',
+  'menu.team.manager':'团队管理',
+  'menu.team.new':'新建团队',
+  'menu.team.join':'加入团队',
+  'menu.project':'团队项目',
+  'menu.project.manager':'项目管理',
+  'menu.project.new':'新建项目',
+  'menu.expenseType':'费用类型',
+  'menu.expenseType.manager':'费用类型管理',
+  'menu.expenseType.new' : '新建费用类型',
+  'menu.expenseApplication': '费用申请单',
+  'menu.expenseApplication.myExpenseApplication' : '我的费用申请单',
+  'menu.expenseApplication.new' : '新建费用申请单',
+  'menu.expenseApprove':'审批管理',
+  'menu.expenseApprove.expenseApplicationApprove' : '费用申请单审批'
+
 };

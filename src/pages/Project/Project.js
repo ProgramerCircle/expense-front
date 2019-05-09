@@ -24,7 +24,7 @@ class Project extends Component {
     const currentUser = JSON.parse(localStorage.getItem("system-user"));
     console.log(currentUser)
     if(currentUser){
-      this.setState(currentUser)
+      this.setState({currentUser})
     }
     if(currentUser.teamId) {
       this.getTeamInfo(currentUser.teamId)
@@ -102,6 +102,7 @@ class Project extends Component {
             </DescriptionList>
             <Divider style={{ marginBottom: 32 }} />
             <div style={{marginBottom:16,fontWeight:500,fontSize:24}}>项目列表</div>
+            {console.log(currentUser)}
             {currentUser && currentUser.rank ?
               <Button icon="plus" type="primary" onClick={() => this.createProject()}>
               新建项目

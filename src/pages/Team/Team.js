@@ -140,7 +140,7 @@ class Team extends Component {
     let renderPage;
     if(teamInfo){
       renderPage = (
-        <PageHeaderWrapper title="基础详情页" loading={loading}>
+        <PageHeaderWrapper title="团队管理页" loading={loading}>
           <Card bordered={false}>
             <DescriptionList size="large" title="团队详情" style={{ marginBottom: 32 }}>
               <Description term="团队名称">{teamInfo.name}</Description>

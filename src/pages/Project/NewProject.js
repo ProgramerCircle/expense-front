@@ -75,46 +75,45 @@
 
       return (
         <PageHeaderWrapper
-          title={<FormattedMessage id="app.forms.basic.title" />}
-          content={<FormattedMessage id="app.forms.basic.description" />}
+          title="新建项目页"
         >
           <Card bordered={false}>
             <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
               {/* 项目名称 */}
-              <FormItem {...formItemLayout} label={<FormattedMessage id="form.title.label" />}>
+              <FormItem {...formItemLayout} label="项目名称">
                 {getFieldDecorator('name', {
                   rules: [
                     {
                       required: true,
-                      message: formatMessage({ id: 'validation.title.required' }),
+                      message: "请输入项目名称",
                     },
                   ],
-                })(<Input placeholder={formatMessage({ id: 'form.title.placeholder' })} />)}
+                })(<Input placeholder="项目名称" style={{ width: '40%' }}/>)}
               </FormItem>
               {/* 项目代码 */}
-              <FormItem {...formItemLayout} label={<FormattedMessage id="form.title.label" />}>
+              <FormItem {...formItemLayout} label="项目简称代码">
                 {getFieldDecorator('shortName', {
                   rules: [
                     {
                       required: true,
-                      message: formatMessage({ id: 'validation.title.required' }),
+                      message: "请输入项目简称代码，全使用大写字母！",
                     },
                   ],
-                })(<Input placeholder={formatMessage({ id: 'form.title.placeholder' })} />)}
+                })(<Input placeholder="项目简称代码，全使用大写字母" style={{ width: '40%' }}/>)}
               </FormItem>
               {/* 项目描述 */}
-              <FormItem {...formItemLayout} label={<FormattedMessage id="form.goal.label" />}>
+              <FormItem {...formItemLayout} label="项目描述">
                 {getFieldDecorator('description', {
                   rules: [
                     {
                       required: true,
-                      message: formatMessage({ id: 'validation.goal.required' }),
+                      message: "请输入项目描述",
                     },
                   ],
                 })(
                   <TextArea
                     style={{ minHeight: 32 }}
-                    placeholder={formatMessage({ id: 'form.goal.placeholder' })}
+                    placeholder="项目描述"
                     rows={4}
                   />
                 )}
@@ -128,7 +127,7 @@
                       message: '请输入合法金额数字',
                     },
                   ],
-                })(<Input prefix="￥" placeholder="请输入预算金额" />)}
+                })(<Input prefix="￥" placeholder="请输入预算金额" style={{ width: '40%' }}/>)}
               </FormItem>
               <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
                 <Button type="primary" htmlType="submit" loading={submitting}>
