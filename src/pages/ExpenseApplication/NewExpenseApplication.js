@@ -4,7 +4,7 @@
   Form,
   Input,
   Button,
-  Card, notification, Radio, Select,
+  Card, notification, Radio, Select,Upload,Icon,Modal
 } from 'antd';
   import PageHeaderWrapper from '@/components/PageHeaderWrapper';
   import axios from 'axios';
@@ -24,18 +24,26 @@
       projectId: null,
       expenseType: {},
       expenseApplication:{},
+      imageId : null,
+      imageUrl : "",
+      fileList:[],
+      previewVisible :false
     }
 
     componentDidMount() {
       const currentUser = JSON.parse(localStorage.getItem("system-user"));
       const {documentId} = this.props.match.params;
-      if(documentId){
-        //TODO
-        //this.getExpenseDocument(documentId);
-      }
       if(currentUser) {
+        if(currentUser.rank > 1){
+          router.push('/exception/noFunction')
+        }
+        if(!currentUser.teamId){
+          router.push('/exception/noTeam')
+        }
         this.getProjectList(currentUser.teamId)
         this.setState({currentUser})
+      }else {
+        router.push('/user/login')
       }
     }
 
@@ -93,7 +101,7 @@
     //
     handleSubmit = e => {
       const { form } = this.props;
-      const { projectId,currentUser,expenseType } =  this.state;
+      const { projectId,currentUser,expenseType,imageId } =  this.state;
       e.preventDefault();
       form.validateFieldsAndScroll((err, values) => {
         if (!err) {
@@ -113,6 +121,7 @@
               expenseTypeId: values.expenseTypeId,
               projectId: values.projectId,
               teamId: currentUser.teamId,
+              evidenceId:imageId,
               applicationUser:currentUser.id
             }
           }
@@ -147,7 +156,62 @@
     }
 
 
+    handleUploadChange = (info) => {
+      let fileList = [];
+      if(info && info.file.status === "uploading"){
+        fileList = [{...info.file}]
+        this.setState({
+          fileList
+        })
+        return
+      }
+      if(info && info.file.status === "done"){
+        fileList = [{...info.file}]
+        console.log(fileList)
+        this.setState({
+          fileList,
+          imageUrl: info.file.response.path,
+          imageId: info.file.response.id,
+        })
+        return
+      }
+      if(info && info.file.status === "removed" ){
+        fileList = []
+        this.setState({
+          fileList,
+          imageId: null,
+        })
+        return
+      }
+    }
 
+    handlePreview = ()=> {
+      this.setState({
+        previewVisible : true
+      })
+    }
+
+    cancelPreview =()=> {
+      this.setState({
+        previewVisible : false
+      })
+    }
+
+    handleUploadBefore = (file) =>{
+      //限制图片 格式
+      const isJPG = file.type === 'image/jpeg';
+      const isJPEG = file.type === 'image/jpeg';
+      const isGIF = file.type === 'image/gif';
+      const isPNG = file.type === 'image/png';
+      if (!(isJPG || isJPEG || isGIF || isPNG)) {
+        notification.error({
+          message: "图片上传失败",
+          description: `只允许上传jpg,jpeg,gif,png格式的图片`
+        });
+        return false;
+      }
+      return true;
+    }
 
 
     //
@@ -175,7 +239,14 @@
           sm: { span: 10, offset: 7 },
         },
       };
-      const { approveStatus, projectList,expenseTypeList,projectId } = this.state;
+      const { projectList,expenseTypeList,projectId,imageUrl,fileList,previewVisible, } = this.state;
+
+      const uploadButton = (
+        <div>
+          <Icon type="plus" />
+          <div className="ant-upload-text">Upload</div>
+        </div>
+      );
 
       return (
         <PageHeaderWrapper
@@ -186,7 +257,6 @@
               {/* 项目 */}
               <FormItem {...formItemLayout} label="所属项目">
                 {getFieldDecorator('projectId', {
-                  //initialValue: "",
                   rules: [
                     {
                       required: true,
@@ -248,6 +318,24 @@
                   ],
                 })(<Input prefix="￥" placeholder="请输入金额" style={{ width: '40%' }} />)}
               </FormItem>
+              <FormItem
+                {...formItemLayout}
+                label="上传凭证图片"
+              >
+                <Upload
+                  action="http://localhost:8080/expense/expenseApplication/evidence"
+                  data={file => ({
+                    uploadFile: file, // file 是当前正在上传的图片
+                  })}
+                  listType="picture-card"
+                  fileList={fileList}
+                  onPreview={this.handlePreview} // 点击图片缩略图，进行预览
+                  beforeUpload={this.handleUploadBefore} // 上传之前，对图片的格式做校验，并获取图片的宽高
+                  onChange={this.handleUploadChange} // 每次上传图片时，都会触发这个方法
+                >
+                  {fileList.length < 1 ? uploadButton : null}
+                </Upload>
+              </FormItem>
               <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
                 <Button type="primary" htmlType="submit" loading={submitting}>
                   <FormattedMessage id="form.submit" />
@@ -255,6 +343,9 @@
               </FormItem>
             </Form>
           </Card>
+          <Modal visible={previewVisible} footer={null} onCancel={this.cancelPreview}>
+            <img style={{ width: '100%' }} src={imageUrl} />
+          </Modal>
         </PageHeaderWrapper>
       );
     }

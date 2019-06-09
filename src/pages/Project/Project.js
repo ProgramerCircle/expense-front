@@ -25,10 +25,15 @@ class Project extends Component {
     console.log(currentUser)
     if(currentUser){
       this.setState({currentUser})
+      if(currentUser.teamId) {
+        this.getTeamInfo(currentUser.teamId)
+      }else {
+        router.push('/exception/noTeam')
+      }
+    } else {
+      router.push('/user/login')
     }
-    if(currentUser.teamId) {
-      this.getTeamInfo(currentUser.teamId)
-    }
+
   }
 
   //获取团队详情
@@ -91,19 +96,17 @@ class Project extends Component {
       },
     ];
 
-    let renderPage;
-    if(teamInfo){
-      renderPage = (
+    const renderPage = (
         <PageHeaderWrapper title="项目管理页" loading={loading}>
           <Card bordered={false}>
             <DescriptionList size="large" title="团队详情" style={{ marginBottom: 32 }}>
-              <Description term="团队名称">{teamInfo.name}</Description>
-              <Description term="团队描述">{teamInfo.description}</Description>
+              <Description term="团队名称">{teamInfo ? teamInfo.name : ""}</Description>
+              <Description term="团队描述">{teamInfo ? teamInfo.description : ""}</Description>
             </DescriptionList>
             <Divider style={{ marginBottom: 32 }} />
             <div style={{marginBottom:16,fontWeight:500,fontSize:24}}>项目列表</div>
             {console.log(currentUser)}
-            {currentUser && currentUser.rank ?
+            {currentUser && currentUser.rank > 1 ?
               <Button icon="plus" type="primary" onClick={() => this.createProject()}>
               新建项目
               </Button> : ""
@@ -118,17 +121,6 @@ class Project extends Component {
             />
           </Card>
         </PageHeaderWrapper>)
-    }else {
-      renderPage = (
-        <Exception
-          type="1001"
-          linkElement={Link}
-          redirect='team/join'
-          backText="前去加入"
-        />
-      )
-    }
-
 
     return renderPage
 

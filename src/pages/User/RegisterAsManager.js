@@ -57,10 +57,10 @@ class Register extends Component {
       localStorage.setItem("system-user",JSON.stringify(register.payload))
       notification.success({
         message: '注册成功！',
-        description: '直接登陆至主页面'
+        description: '前去创建团队！'
       });
       router.push({
-        pathname: '/team/manager',
+        pathname: '/team/new',
         state: {
           account,
         },
@@ -129,8 +129,8 @@ class Register extends Component {
           message.error("请输入验证码")
           return
         }
-        values.rank = 0;
         const { prefix } = this.state;
+        values.rank = 2;
         dispatch({
           type: 'register/submit',
           payload: {

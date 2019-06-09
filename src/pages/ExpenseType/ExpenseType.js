@@ -25,8 +25,13 @@ class ExpenseType extends Component {
   componentDidMount() {
     const currentUser = JSON.parse(localStorage.getItem("system-user"));
     if(currentUser) {
+      if(!currentUser.teamId){
+        router.push('/exception/noTeam')
+      }
       this.setState({currentUser})
       this.getProjectList(currentUser.teamId)
+    }else {
+      router.push('/user/login')
     }
   }
 
@@ -138,7 +143,7 @@ class ExpenseType extends Component {
         <Divider style={{ marginBottom: 32 }} />
         <div style={{marginBottom:16,fontWeight:500,fontSize:24}}>费用类型</div>
 
-        {currentUser && currentUser.rank ?
+        {currentUser && currentUser.rank > 0?
           <Button icon="plus" type="primary" onClick={() => this.createExpenseType()}>
             新建费用类型
           </Button> : ""

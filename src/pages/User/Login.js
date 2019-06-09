@@ -117,8 +117,8 @@ class LoginPage extends Component {
             />
           </Tab>
           <div>
-            <Link style={{ float: 'right' }} to="/user/register">
-              <FormattedMessage id="app.login.forgot-password" />
+            <Link style={{ float: 'right' }} to="/user/register/manager">
+              注册管理员用户
             </Link>
             <Link className={styles.register} to="/user/register">
               <FormattedMessage id="app.login.signup" />

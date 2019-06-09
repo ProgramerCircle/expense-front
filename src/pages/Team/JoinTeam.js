@@ -18,9 +18,15 @@ class JoinTeam extends PureComponent {
   componentDidMount() {
     const currentUser = JSON.parse(localStorage.getItem("system-user"));
     if(currentUser) {
+      if(currentUser.rank > 1) {
+        router.push('/exception/noFunction')
+      }
       console.log(currentUser)
       this.setState({currentUser})
       this.getTeamList()
+
+    } else {
+      router.push('/user/login')
     }
   }
 

@@ -17,26 +17,7 @@ const ProportionSales = memo(
           defaultMessage="The Proportion of Sales"
         />
       }
-      bodyStyle={{ padding: 24 }}
-      extra={
-        <div className={styles.salesCardExtra}>
-          {dropdownGroup}
-          <div className={styles.salesTypeRadio}>
-            <Radio.Group value={salesType} onChange={handleChangeSalesType}>
-              <Radio.Button value="all">
-                <FormattedMessage id="app.analysis.channel.all" defaultMessage="ALL" />
-              </Radio.Button>
-              <Radio.Button value="online">
-                <FormattedMessage id="app.analysis.channel.online" defaultMessage="Online" />
-              </Radio.Button>
-              <Radio.Button value="stores">
-                <FormattedMessage id="app.analysis.channel.stores" defaultMessage="Stores" />
-              </Radio.Button>
-            </Radio.Group>
-          </div>
-        </div>
-      }
-      style={{ marginTop: 24 }}
+      bodyStyle={{ padding: 24 }} style={{ marginTop: 24 }}
     >
       <h4 style={{ marginTop: 10, marginBottom: 32 }}>
         <FormattedMessage id="app.analysis.sales" defaultMessage="Sales" />

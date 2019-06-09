@@ -47,6 +47,21 @@
         }
       });
     };
+    componentDidMount() {
+      const currentUser = JSON.parse(localStorage.getItem("system-user"));
+      if(currentUser){
+        if(!currentUser.teamId) {
+          router.push('/exception/noTeam')
+        }
+        if(currentUser.rank < 2){
+          router.push('/exception/noAccess')
+        }
+      } else {
+        router.push('/user/login')
+      }
+
+    }
+
 
     render() {
       const { submitting } = this.props;

@@ -16,6 +16,17 @@
   @Form.create()
   class NewTeam extends PureComponent {
 
+    componentDidMount() {
+      const currentUser = JSON.parse(localStorage.getItem("system-user"));
+      if(currentUser){
+        if(currentUser.rank < 1) {
+          router.push('/exception/OnlyManager')
+        }
+      } else {
+        router.push('/user/login')
+      }
+    }
+
     handleSubmit = e => {
       const { form } = this.props;
       const currentUser = JSON.parse(localStorage.getItem("system-user"));
@@ -34,7 +45,7 @@
           }
           axios(option).then(res=>{
             currentUser.teamId = res.data.id;
-            currentUser.rank = 1;
+            currentUser.rank = 2;
             localStorage.setItem('system-user', JSON.stringify(currentUser))
             router.push(`/team/manager`)
           }).catch(error => {

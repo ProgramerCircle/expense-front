@@ -32,9 +32,18 @@ class ExpenseApplication extends Component {
   componentDidMount() {
     const currentUser = JSON.parse(localStorage.getItem("system-user"));
     if(currentUser) {
-      this.setState({currentUser})
-      this.getExpenseApplicationList(currentUser.id)
-      this.getProjectList(currentUser.teamId)
+      if(currentUser.teamId){
+        if(currentUser.rank > 1){
+          router.push('/exception/noFunction')
+        }
+        this.setState({currentUser})
+        this.getExpenseApplicationList(currentUser.id)
+        this.getProjectList(currentUser.teamId)
+      }else {
+        router.push('/exception/noTeam')
+      }
+    }else {
+      router.push('/user/login')
     }
   }
 
@@ -133,6 +142,38 @@ class ExpenseApplication extends Component {
       })
     });
   };
+
+  deleteExpenseApplication = (text, record) => {
+    console.log(record)
+    const{ currentUser } = this.state;
+    const option = {
+      url: `http://localhost:8080/expense/expenseApplication/delete?id=${record.id}`,
+      method: 'delete',
+    }
+    axios(option).then(res=>{
+      notification.success({
+        message: "删除成功！",
+      })
+      this.getExpenseApplicationList(currentUser.id)
+    }).catch(error => {
+      notification.error({
+        message: error.response.data.message,
+        description: `响应状态码：${error.response.data.status}`
+      });
+    })
+  }
+
+  showEvidence = (text, record) => {
+    console.log(record)
+    const option = {
+      url: `http://localhost:8080/expense/expenseApplication/evidence?id=${record.evidenceId}`,
+      method: 'get',
+    }
+    axios(option).then(res=>{
+      const w = window.open('about:blank');
+      w.location.href=res.data.path
+    })
+  }
 
   submitApprove = (text, record) => {
     console.log(record)
@@ -249,8 +290,16 @@ class ExpenseApplication extends Component {
       },
       {
         title: '申请人',
-        dataIndex: 'applicationUser',
-        key: 'applicationUser',
+        dataIndex: 'applicationUserName',
+        key: 'applicationUserName',
+      },
+      {
+        title: '凭证',
+        render: (text, record) => (
+          <Fragment>
+            {record.evidenceId ? <a onClick={() => this.showEvidence(text,record)}>查看凭证</a> :"" }
+          </Fragment>
+        ),
       },
       {
         title: '审批状态',
@@ -265,7 +314,7 @@ class ExpenseApplication extends Component {
           <Fragment>
             {record.status === 1 ? <a onClick={() => this.submitApprove(text,record)}>提交审批</a> :"" }
             {record.status === 1 ? <Divider type="vertical" /> :"" }
-            <a onClick={() => this.submitApprove(text,record)}>删除</a>
+            {record.status < 2 ? <a onClick={() => this.deleteExpenseApplication(text,record)}>删除</a>:"" }
           </Fragment>
         ),
       },

@@ -9,7 +9,7 @@ export default {
   'app.login.forgot-password': '忘记密码',
   'app.login.sign-in-with': '其他登录方式',
   'app.login.signup': '注册账户',
-  'app.login.login': '登录',
+  'app.login.login': '登陆',
   'app.register.register': '用户注册',
   'app.register.get-verification-code': '获取验证码',
   'app.login.verification-code-warning':

@@ -19,7 +19,7 @@ const status = ['无','编辑中', '审批中', '审批通过', '驳回'];
 
 import styles from './TableList.less';
 @Form.create()
-class ExpenseApprove extends Component {
+class MyExpenseApproveRecord extends Component {
   state = {
     currentUser : {},
     projectId: null,
@@ -58,7 +58,7 @@ class ExpenseApprove extends Component {
   //获取费用申请单集合
   getExpenseApplicationList = (id) => {
     const option = {
-      url: `http://localhost:8080/expense/expenseApprove/list/by/condition?approveUser=${id}`,
+      url: `http://localhost:8080/expense/expenseApplication/list/by/condition?approveUser=${id}&approveRecordSearchFlag=true`,
       method: 'get',
     }
     axios(option).then(res=>{
@@ -106,6 +106,18 @@ class ExpenseApprove extends Component {
     })
   }
 
+  showEvidence = (text, record) => {
+    console.log(record)
+    const option = {
+      url: `http://localhost:8080/expense/expenseApplication/evidence?id=${record.evidenceId}`,
+      method: 'get',
+    }
+    axios(option).then(res=>{
+      const w = window.open('about:blank');
+      w.location.href=res.data.path
+    })
+  }
+
   handleFormReset = () => {
     const { form } = this.props;
     const {currentUser} = this.state;
@@ -123,8 +135,9 @@ class ExpenseApprove extends Component {
     const { currentUser } = this.state;
     form.validateFields((err, values) => {
       const option = {
-        url: 'http://localhost:8080/expense/expenseApprove/list/by/condition',
+        url: 'http://localhost:8080/expense/expenseApplication/list/by/condition',
         params: {
+          approveRecordSearchFlag: true,
           approveUser: currentUser.id,
           expenseNo: values.expenseNo,
           applicationUser: values.applicationUser,
@@ -146,57 +159,6 @@ class ExpenseApprove extends Component {
     });
   };
 
-  approvePass = (text, record) => {
-    const {currentUser} = this.state;
-    const option = {
-      url: `http://localhost:8080/expense/expenseApprove/pass?expenseApplicationId=${record.id}&approveUser=${currentUser.id}`,
-      method: 'post',
-    }
-    axios(option).then(res=>{
-      notification.success({
-        message: "审批通过！",
-        description: `响应状态码：200 OK`
-      })
-      this.getExpenseApplicationList(currentUser.id)
-    }).catch(error => {
-      notification.error({
-        message: error.response.data.message,
-        description: `响应状态码：${error.response.data.status}`
-      });
-    })
-  }
-
-  approveRefuse = (text, record) => {
-    const {currentUser} = this.state;
-    const option = {
-      url: `http://localhost:8080/expense/expenseApprove/refuse?expenseApplicationId=${record.id}&approveUser=${currentUser.id}`,
-      method: 'post',
-    }
-    axios(option).then(res=>{
-      notification.success({
-        message: "驳回成功！",
-        description: `响应状态码：200 OK`
-      })
-      this.getExpenseApplicationList(currentUser.id)
-    }).catch(error => {
-      notification.error({
-        message: error.response.data.message,
-        description: `响应状态码：${error.response.data.status}`
-      });
-    })
-  }
-
-  showEvidence = (text, record) => {
-    console.log(record)
-    const option = {
-      url: `http://localhost:8080/expense/expenseApplication/evidence?id=${record.evidenceId}`,
-      method: 'get',
-    }
-    axios(option).then(res=>{
-      const w = window.open('about:blank');
-      w.location.href=res.data.path
-    })
-  }
 
   //渲染查询表单
   renderForm() {
@@ -295,6 +257,11 @@ class ExpenseApprove extends Component {
         key: 'applicationUserName',
       },
       {
+        title: '审批人',
+        dataIndex: 'approveUserName',
+        key: 'approveUserName',
+      },
+      {
         title: '凭证',
         render: (text, record) => (
           <Fragment>
@@ -309,19 +276,10 @@ class ExpenseApprove extends Component {
           return <Badge status={statusMap[val]} text={status[val]} />;
         },
       },
-      {
-        title: '操作',
-        render: (text, record) => (
-          <Fragment>
-            <a onClick={() => this.approvePass(text,record)}>通过</a>
-            <Divider type="vertical" />
-            <a onClick={() => this.approveRefuse(text,record)}>驳回</a>
-          </Fragment>
-        ),
-      },
+
     ];
 
-    return <PageHeaderWrapper title="费用申请单审批" loading={loading}>
+    return <PageHeaderWrapper title="我的审批记录" loading={loading}>
       <Card bordered={false}>
         <div style={{marginBottom:16,fontWeight:500,fontSize:24}}>查询条件</div>
         <div className={styles.tableListForm}>{this.renderForm()}</div>
@@ -343,4 +301,4 @@ class ExpenseApprove extends Component {
 
 }
 
-export default ExpenseApprove;
+export default MyExpenseApproveRecord;

@@ -27,14 +27,23 @@
       const currentUser = JSON.parse(localStorage.getItem("system-user"));
       const {projectId} = this.props.match.params;
       if(currentUser) {
+        if(!currentUser.teamId){
+          router.push('/exception/noTeam')
+        }
+        if(currentUser.rank < 1){
+          router.push('/exception/noAccess')
+        }
         this.getApproveUser(currentUser.teamId);
         this.setState({currentUser,projectId})
+      }else {
+        router.push('/user/login')
       }
+
     }
 
     getApproveUser = (id)=>{
       const option = {
-        url: `http://localhost:8080/expense/user/list/by/team?id=${id}`,
+        url: `http://localhost:8080/expense/user/list/by/team/and/rank?id=${id}&rank=1`,
         method: 'get',
       }
       axios(option).then(res=>{

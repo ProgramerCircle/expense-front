@@ -23,10 +23,14 @@ class Team extends Component {
     console.log(currentUser)
     if(currentUser){
       this.setState({currentUser})
+    }else {
+      router.push('/user/login')
     }
     if(currentUser.teamId) {
       this.getTeamInfo(currentUser.teamId)
       this.getUserList(currentUser.teamId)
+    } else {
+      router.push('/exception/noTeam')
     }
   }
 
@@ -126,25 +130,23 @@ class Team extends Component {
       },
     ];
     console.log(currentUser)
-    if(currentUser && currentUser.rank){
+    if(currentUser && currentUser.rank > 1){
       userColumns.push({
         title: '操作',
         render: (text, record) => (
           <Fragment>
-            {record.rank ? <a onClick={() => this.cancelManager(text,record)}>取消管理员</a> :<a onClick={() => this.setManager(text,record)}>设为管理员</a> }
+            {record.rank < 2 ? (record.rank > 0 ?<a onClick={() => this.cancelManager(text,record)}>取消负责人</a> :<a onClick={() => this.setManager(text,record)}>设为负责人</a> ) : <h4>管理员</h4> }
           </Fragment>
         ),
       })
     }
 
-    let renderPage;
-    if(teamInfo){
-      renderPage = (
+    const renderPage = (
         <PageHeaderWrapper title="团队管理页" loading={loading}>
           <Card bordered={false}>
             <DescriptionList size="large" title="团队详情" style={{ marginBottom: 32 }}>
-              <Description term="团队名称">{teamInfo.name}</Description>
-              <Description term="团队描述">{teamInfo.description}</Description>
+              <Description term="团队名称">{teamInfo ? teamInfo.name : ""}</Description>
+              <Description term="团队描述">{teamInfo ? teamInfo.description : ""}</Description>
             </DescriptionList>
             <Divider style={{ marginBottom: 32 }} />
             <div style={{marginBottom:16,fontWeight:500,fontSize:24}}>用户列表</div>
@@ -158,16 +160,7 @@ class Team extends Component {
             />
           </Card>
         </PageHeaderWrapper>)
-    }else {
-      renderPage = (
-        <Exception
-          type="1001"
-          linkElement={Link}
-          redirect='/team/join'
-          backText="前去加入"
-        />
-      )
-    }
+
 
 
     return renderPage
